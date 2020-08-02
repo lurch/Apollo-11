@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>AGC scans viewer</TITLE>
+<SCRIPT>
+function changeDir(newdir) {
+	showPage()
+}
+function showPrevious() {
+	newpage = parseInt(document.form.pagenum.value) - 1;
+	if (newpage >= 1) {
+		changePage(newpage);
+	}
+}
+function showNext() {
+	newpage = parseInt(document.form.pagenum.value) + 1;
+	if (newpage <= 9999) {
+		changePage(newpage);
+	}
+}
+function changePage(page) {
+	document.form.pagenum.value = page;
+	showPage();
+}
+function showPage() {
+	page = parseInt(document.form.pagenum.value);
+	if ((page >= 1) && (page <= 9999)) {
+		formatted = "000" + page;
+		formatted = formatted.substr(formatted.length - 4);
+		imgUrl = "http://www.ibiblio.org/apollo/ScansForConversion/" + document.form.directory.value + "/" + formatted + ".jpg";
+		document.body.style.cursor = "progress";
+		document.image.src = imgUrl;
+	}
+}
+</SCRIPT>
+</HEAD>
+<BODY onLoad="showPage()">
+<FORM NAME=form onSubmit="return false">
+<SELECT NAME="directory" onChange="changeDir(this.value)"><OPTION>Comanche055</OPTION><OPTION>Luminary099</OPTION><SELECT>
+<INPUT TYPE=BUTTON onClick="showPrevious()" VALUE="&lt;">
+<INPUT TYPE=TEXT NAME=pagenum onChange="changePage(parseInt(this.value))" SIZE=5 MAXLENGTH=4 VALUE=1>
+<INPUT TYPE=BUTTON onClick="showNext()" VALUE="&gt;">
+</FORM>
+<IMG NAME=image onLoad="this.title=this.src;document.body.style.cursor='default'" WIDTH=1314 HEIGHT=1000></IMG>
+</BODY>
+</HTML>
